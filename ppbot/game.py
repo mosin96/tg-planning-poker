@@ -41,9 +41,7 @@ class Vote:
 
 class Game:
 
-    OP_RESTART = "restart"
     OP_RESTART_NEW = "restart-new"
-    OP_REVEAL = "reveal"
     OP_REVEAL_NEW = "reveal-new"
 
     def __init__(self, chat_id, vote_id, initiator, text):
@@ -59,18 +57,19 @@ class Game:
         self.votes[self._initiator_str(initiator)].set(point)
 
     def get_text(self):
-        result = "{} for:\n{}\nInitiator: {}".format(
-            "Vote" if not self.revealed else "Results",
+        result = "{} для задачи:\n{}\nИнициатор: {}".format(
+            "Голосование" if not self.revealed else "Результаты",
             self.text, self._initiator_str(self.initiator)
         )
         if self.votes:
+            vote_count = len(self.votes)
             votes_str = "\n".join(
                 "{:3s} {}".format(
                     vote.point if self.revealed else vote.masked, user_id
                 )
                 for user_id, vote in sorted(self.votes.items())
             )
-            result += "\n\nCurrent votes:\n{}".format(votes_str)
+            result += "\n\nТекущие голоса ({} участников):\n{}".format(vote_count, votes_str)
         return result
 
     def get_send_kwargs(self):
@@ -93,24 +92,14 @@ class Game:
                 [
                     {
                         "type": "InlineKeyboardButton",
-                        "text": "Restart",
-                        "callback_data": "{}-click-{}".format(self.OP_RESTART, self.vote_id),
-                    },
-                    {
-                        "type": "InlineKeyboardButton",
-                        "text": "Restart 🆕",
+                        "text": "Перезапустить",
                         "callback_data": "{}-click-{}".format(self.OP_RESTART_NEW, self.vote_id),
                     },
                 ],
                 [
                     {
                         "type": "InlineKeyboardButton",
-                        "text": "Open Cards",
-                        "callback_data": "{}-click-{}".format(self.OP_REVEAL, self.vote_id),
-                    },
-                    {
-                        "type": "InlineKeyboardButton",
-                        "text": "Open Cards 🆕",
+                        "text": "Открыть карты",
                         "callback_data": "{}-click-{}".format(self.OP_REVEAL_NEW, self.vote_id),
                     },
                 ],
