@@ -64,13 +64,14 @@ class Game:
             self.text, self._initiator_str(self.initiator)
         )
         if self.votes:
+            vote_count = len(self.votes)
             votes_str = "\n".join(
                 "{:3s} {}".format(
                     vote.point if self.revealed else vote.masked, user_id
                 )
                 for user_id, vote in sorted(self.votes.items())
             )
-            result += "\n\nCurrent votes:\n{}".format(votes_str)
+            result += "\n\nCurrent votes ({} participants):\n{}".format(vote_count, votes_str)
         return result
 
     def get_send_kwargs(self):
