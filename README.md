@@ -1,4 +1,4 @@
-# Planning Poker Bot for Telegram
+# Planning Poker Bot for Telegram Russian Version
 This bot allows to play Planning Poker game in group chat.
 
 # Usage
