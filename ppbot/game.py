@@ -22,9 +22,8 @@ ALL_MARKS = "♥♦♠♣"
 
 def find_nearest_fibonacci(number):
     fib_sequence = NUMBER_POINTS_INT
-    # Если последнее число в списке превысило заданное число, удаляем его, так как оно больше number
-    if fib_sequence[-1] > number:
-        fib_sequence.pop()
+    if number in NUMBER_POINTS_INT:
+        return number
     # Теперь находим ближайшее число Фибоначчи
     nearest = min(fib_sequence, key=lambda x: abs(x - number))
     return nearest
