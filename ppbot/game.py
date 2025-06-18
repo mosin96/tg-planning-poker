@@ -8,9 +8,33 @@ AVAILABLE_POINTS = [
     "1", "2", "3", "5", "8",
     "13", "20", "40", "❔", "☕",
 ]
+NUMBER_POINTS = [
+    "1", "2", "3", "5", "8",
+    "13", "20", "40"
+]
+NUMBER_POINTS_INT = [
+    1, 2, 3, 5, 8,
+    13, 20, 40
+]
 HALF_POINTS = len(AVAILABLE_POINTS) // 2
 ALL_MARKS = "♥♦♠♣"
 
+
+def find_nearest_fibonacci(number):
+    fib_sequence = NUMBER_POINTS_INT
+    # Если последнее число в списке превысило заданное число, удаляем его, так как оно больше number
+    if fib_sequence[-1] > number:
+        fib_sequence.pop()
+    # Теперь находим ближайшее число Фибоначчи
+    nearest = min(fib_sequence, key=lambda x: abs(x - number))
+    return nearest
+
+def mean_to_fibonacci(points):
+    # Находим среднее значение оценок
+    mean_value = sum(points) / len(points)
+    # Находим ближайшее число Фибоначчи к среднему значению
+    nearest_fibonacci = find_nearest_fibonacci(mean_value)
+    return nearest_fibonacci
 
 class Vote:
     def __init__(self):
@@ -56,6 +80,8 @@ class Game:
     def add_vote(self, initiator, point):
         self.votes[self._initiator_str(initiator)].set(point)
 
+
+
     def get_text(self):
         result = "{} для задачи:\n{}\nИнициатор: {}".format(
             "Голосование" if not self.revealed else "Результаты",
@@ -70,6 +96,13 @@ class Game:
                 for user_id, vote in sorted(self.votes.items())
             )
             result += "\n\nТекущие голоса ({} участников):\n{}".format(vote_count, votes_str)
+            if self.revealed:
+                votes_sum_point = []
+                for user_id, vote in sorted(self.votes.items()):
+                    if vote.point in NUMBER_POINTS:
+                        votes_sum_point.append(int(vote.point))
+                votes_avg_point = mean_to_fibonacci(votes_sum_point)
+                result += "\nСредняя оценка - {}SP".format(votes_avg_point)
         return result
 
     def get_send_kwargs(self):
