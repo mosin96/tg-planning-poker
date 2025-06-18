@@ -102,7 +102,7 @@ class Game:
                     if vote.point in NUMBER_POINTS:
                         votes_sum_point.append(int(vote.point))
                 votes_avg_point = mean_to_fibonacci(votes_sum_point)
-                result += "\nСредняя оценка - {}SP".format(votes_avg_point)
+                result += "\n\nСредняя оценка - {} SP".format(votes_avg_point)
         return result
 
     def get_send_kwargs(self):
