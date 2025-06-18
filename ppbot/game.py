@@ -32,7 +32,7 @@ def mean_to_fibonacci(points):
     # Находим среднее значение оценок
     mean_value = sum(points) / len(points)
     # Находим ближайшее число Фибоначчи к среднему значению
-    nearest_fibonacci = find_nearest_fibonacci(mean_value)
+    nearest_fibonacci = int(find_nearest_fibonacci(mean_value))
     return nearest_fibonacci
 
 class Vote:
